@@ -1,33 +1,37 @@
-function allertMessage(){
-    alert('У тебя все удалось!')
-}
-function yellowButton(){
-    alert ('Yellow button click!')
-}
+
+const image = document.querySelector('.slide')
+
+const [prevButton, nextButton] = document.querySelectorAll('btn')
 
 
-// document.getElementById()
-// document.getElementsByTagName()
-//document.getElementsByClassName()
+const imgDataBase = [
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80',
+    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80',
+]
 
-// querySelector - принимает любой валидный css селектор.Возвращает один элемент(первый встреченный)
-//Селекторы прописываем по правилам css
-// querySelectorAll - возвращает все элементы по валидному селектору
+const slider = new Slider(imgDataBase);
 
-const [firstButton] = document.getElementsByTagName('button') //возвращает HTML-collection (живая коллекция)
-firstButton.addEventListener('click', allertMessage)
-
-const yellow_Button = document.getElementsByClassName('yellow-button'); 
-
-for(const item of yellowButton){
-   item.addEventListener('click', yellowButton)
+function updateView(){
+    image.setAttribute('src', slider.currentSlide);
 }
 
-//вывести счетчик сколько нажимали
+updateView()
 
-// const p = document.querySelector('article > p') //возвращает NodeList - ведет себя как массив
-const ps = document.querySelectorAll('article > p') 
+const createSliderHandles = (direction) => () => {
 
-const h1 = document.querySelector('h1')
-const img = document.querySelector('img')
-const span = document.querySelector('span')
+    return () => {
+        slider.currentIndex = slider[direction === 'next' ? 'next' : 'prev']();
+        updateView()
+    }
+   
+}
+
+ prevButton.addEventListener('click',createSliderHandles('prev'))
+
+ nextButton.addEventListener('click', createSliderHandles('next'))
+
+
+
+
